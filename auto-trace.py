@@ -1,6 +1,8 @@
 import random
+import sys
 FAILED_SIGN = 'EvenNum'
 PASS_SIGN = 'OddNum'
+
 
 def auto_trace(input_list):
 
@@ -12,8 +14,7 @@ def auto_trace(input_list):
         else:
             current_version_status = determine_odd_even(input_list[1])
             if current_version_status == FAILED_SIGN:
-                faile_version = input_list[1]
-                return faile_version
+                return input_list
             else:
                 print('End Version also PASS!')
                 return -1
@@ -38,7 +39,7 @@ def auto_trace(input_list):
                 print('End Version also PASS!') # current day's  version rerun pass.
                 return -1
     else:
-        return
+        sys.exit(-1)
 
     print('temp_list_raw:', temp_list_raw)
     while len(temp_list_raw) > 2:  
@@ -50,9 +51,9 @@ def auto_trace(input_list):
     
     
     if len(temp_list_raw) == 2:  # list[0] == PASS, list[-1] == FAILED
-        failed_version = temp_list_raw[1]
-        pass_version = temp_list_raw[0]
-        return failed_version
+        #failed_version = temp_list_raw[1]
+        #pass_version = temp_list_raw[0]
+        return temp_list_raw
 
 
 def determine_odd_even(input_num):
@@ -86,8 +87,8 @@ def gen_list_random():
                 list_a.append(temp_num)
         if len(list_a) > 50 and len(list_b) > 50:
             break
-    aa = random.randint(0,50)
-    bb = random.randint(0,50)
+    aa = random.randint(0,5)
+    bb = random.randint(0,5)
     list_a_end  = list_a[0:aa]
     list_b_end  = list_b[0:bb]
     list_end = list_a_end + list_b_end
@@ -101,13 +102,11 @@ if __name__ == '__main__':
     input_list = gen_list_random()
     print('input_list:', input_list)
     print('listlenth is: ', len(input_list))
-    failed_version = auto_trace(input_list)
-    if failed_version == -1:
-        pass
+    trace_failed_version = auto_trace(input_list)
+    if trace_failed_version == -1:
+        sys.exit(-1)
     else:
-        for i in range(0,len(input_list)):
-            if failed_version == input_list[i]:
-                pass_version = input_list[i-1]
-                break
+        pass_version = trace_failed_version[0]
+        failed_version = trace_failed_version[1]
         print('pass_version is', pass_version)
         print('failed_version is ', failed_version)
